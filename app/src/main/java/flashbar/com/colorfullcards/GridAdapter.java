@@ -112,7 +112,7 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(Palette palette) {
-                            Palette.Swatch swatch = palette.getMutedSwatch();
+                            Palette.Swatch swatch = palette.getVibrantSwatch();
                             //get previous color which was set on the cardview
                             ColorHolder previousColorValue = getPreviousColor(holder);
 
