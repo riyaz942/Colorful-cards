@@ -1,4 +1,6 @@
 # Colorful-cards
-Its a demo app which demonstrate transition of colors on Cards, Done asynchronously To provide smooth scrolling
+Its a demo app which demonstrates transition of colors on Cards when scrolling
 
-![Alt text](/Media/just-a-gif.gif?raw=true "Demo")
+Used: AutoFitRecyclerView, Palette api, Picasso
+
+![https://www.youtube.com/watch?v=15pTOlSMiuM](/Media/just-a-gif.gif?raw=true "Demo")
