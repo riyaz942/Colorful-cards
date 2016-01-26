@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     private final static int DEFAULT_IMAGE=R.mipmap.ic_launcher;
-    private final static int ANIMATION_DURATION=700;
+    private final static int ANIMATION_DURATION=600;
 
     private int[] values;
     private Context context;
@@ -61,10 +61,6 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         return color;
     }
 
-    private void changeToDefault(GridAdapter.ViewHolder holder,ColorHolder previousColor){
-        changeColor(holder,previousColor,ColorHolder.getDefaultColorHolder());
-    }
-
     private void changeColor(GridAdapter.ViewHolder holder,ColorHolder previousColor,ColorHolder nextColor){
         //no point in animating the cardview color if previous color and current color are the same
         if (previousColor.backgroundColor != nextColor.backgroundColor) {
@@ -98,39 +94,39 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         holder.heading.setText("Heading " + (position + 1));
         holder.info.setText("Some info " + (position + 1));
 
-        Picasso.with(context).load(values[position]).placeholder(DEFAULT_IMAGE).error(DEFAULT_IMAGE).fit().into(holder.imageView, new Callback() {
+        Picasso.with(context)
+                .load(values[position])
+                .placeholder(DEFAULT_IMAGE)
+                .error(DEFAULT_IMAGE).fit().centerCrop()
+                .transform(PaletteTransformation.instance())
+                .into(holder.imageView, new Callback() {
 
-            @Override
-            public void onSuccess() {
-                //Get image from imageView after picasso has done loading it on the imageview, its a resized image
-                Bitmap bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
 
-                if (bitmap != null) {
-                    // generating palette
-                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                        @Override
-                        public void onGenerated(Palette palette) {
-                            Palette.Swatch swatch = palette.getVibrantSwatch();
+                        if (bitmap != null) {
+                            Palette.Swatch swatch = PaletteTransformation.getPalette(bitmap).getVibrantSwatch();
                             //get previous color which was set on the cardview as tags
                             ColorHolder previousColorValue = getPreviousColor(holder);
 
                             if (swatch != null)
                                 //change color of cardview from the previously set color to the new generated color
-                                changeColor(holder,previousColorValue,extractColor(swatch));
-                             else
-                                changeToDefault(holder, previousColorValue);
-                        }
-                    });
-                } else
-                    changeToDefault(holder, getPreviousColor(holder));
-            }
+                                changeColor(holder, previousColorValue, extractColor(swatch));
+                            else
+                                //changing color to default
+                                changeColor(holder, previousColorValue,ColorHolder.getDefaultColorHolder());
 
-            @Override
-            public void onError() {
-                //change to default color if any error occurs
-                changeToDefault(holder, getPreviousColor(holder));
-            }
-        });
+                        } else
+                            changeColor(holder, getPreviousColor(holder), ColorHolder.getDefaultColorHolder());
+                    }
+
+                    @Override
+                    public void onError() {
+                        //change to default color if any error occurs
+                        changeColor(holder, getPreviousColor(holder), ColorHolder.getDefaultColorHolder());
+                    }
+                });
     }
 
     @Override

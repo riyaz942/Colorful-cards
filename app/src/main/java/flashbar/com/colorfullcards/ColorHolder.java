@@ -2,9 +2,6 @@ package flashbar.com.colorfullcards;
 
 import android.graphics.Color;
 
-/**
- * Created by sasuke on 1/25/2016.
- */
 public class ColorHolder {
     int backgroundColor;
     int headingColor;
