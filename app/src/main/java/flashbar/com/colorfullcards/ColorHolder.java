@@ -14,7 +14,7 @@ public class ColorHolder {
         ColorHolder colorHolder = new ColorHolder();
         colorHolder.backgroundColor = Color.WHITE;
         colorHolder.headingColor = Color.BLACK;
-        colorHolder.infoColor = Color.BLACK;
+        colorHolder.infoColor = Color.GRAY;
         return colorHolder;
     }
 }

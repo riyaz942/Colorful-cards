@@ -1,11 +1,9 @@
 package flashbar.com.colorfullcards;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -45,11 +43,10 @@ public class AutoFitRecyclerView extends RecyclerView{
                     ((StaggeredGridLayoutManager)layoutManager).setSpanCount(spanCount);
                 }
             else if(layoutManager instanceof GridLayoutManager){
-                    ((StaggeredGridLayoutManager)layoutManager).setSpanCount(spanCount);
+                    ((GridLayoutManager)layoutManager).setSpanCount(spanCount);
                 }
                 // if you call requestLayout() right here, you'll get ArrayIndexOutOfBoundsException when scrolling
                 post(m_layoutRequester);
-
         }
     }
 

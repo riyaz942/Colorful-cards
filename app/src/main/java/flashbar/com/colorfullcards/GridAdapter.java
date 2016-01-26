@@ -103,11 +103,10 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             @Override
             public void onSuccess() {
 
-                //Get image from imageView after picasso has done loading, it is a resized image
+                //Get image from imageView after picasso has done loading, its a resized image
                 Bitmap bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
 
                 if (bitmap != null) {
-
                     // generating palette
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         @Override
@@ -116,17 +115,14 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                             //get previous color which was set on the cardview
                             ColorHolder previousColorValue = getPreviousColor(holder);
 
-                            if (swatch != null) {
-                                ColorHolder color = extractColor(swatch);
+                            if (swatch != null)
                                 //change color of cardview from the previously set color to the new generated color
-                                changeColor(holder,previousColorValue,color);
-                            } else{
+                                changeColor(holder,previousColorValue,extractColor(swatch));
+                             else
                                 //change to default color if any error occurs
                                 changeToDefault(holder, previousColorValue);
-                            }
                         }
                     });
-
                 } else
                     changeToDefault(holder, getPreviousColor(holder));
             }
